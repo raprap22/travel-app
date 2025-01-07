@@ -18,7 +18,7 @@ const ProfilePage = () => {
   if (status === 'pending') return <Loading type="screen" />;
   if (status === 'error') return <p>Error: {error.message}</p>;
 
-  const filteredComments = data.data.filter(
+  const filteredComments = data.filter(
     (commentar: Commentar) => commentar?.user?.username === user.username
   );
 

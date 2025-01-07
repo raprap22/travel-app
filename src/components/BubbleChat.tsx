@@ -22,10 +22,6 @@ const BubbleChat: React.FC<BubbleChatProps> = ({
 }) => {
   const [newComment, setNewComment] = useState('');
 
-  const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewComment(event.target.value);
-  };
-
   const handleAddComment = () => {
     if (!newComment.trim()) {
       return;

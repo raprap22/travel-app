@@ -129,10 +129,36 @@ export const fetchComments = async () => {
     },
     params: {
       'populate[user]': '*',
+      'pagination[pageSize]': 1000,
+      'sort[0]': 'publishedAt:desc',
     },
   };
-  const { data } = await axios.get(`${BASE_URL}/comments`, config);
-  return data;
+
+  let allComments: any[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  try {
+    while (page <= totalPages) {
+      const { data } = await axios.get(`${BASE_URL}/comments`, {
+        ...config,
+        params: {
+          ...config.params,
+          'pagination[page]': page,
+        },
+      });
+
+      allComments = [...allComments, ...data.data];
+
+      totalPages = data.meta.pagination.pageCount;
+      page++;
+    }
+
+    return allComments;
+  } catch (error) {
+    console.error('Gagal mengambil komentar:', error);
+    return [];
+  }
 };
 
 export const createComment = async (data: AddCommentar) => {
